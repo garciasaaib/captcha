@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const NumberContainer = styled.div`
-    background: #ededed;
     padding: 1rem;
     display: inline-block;
     border-radius: 10px;

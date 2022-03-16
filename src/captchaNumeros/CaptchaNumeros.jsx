@@ -5,10 +5,10 @@ import { getRandomNumber } from './helpers/getRandom'
 
 export const CaptchaNumeros = () => {
 
-    const [operando, setOperando] = useState()
-    const [operando1, setOperando1] = useState()
+    const [operando, setOperando] = useState(0)
+    const [operando1, setOperando1] = useState(0)
     const [signo, setSigno] = useState()
-    const [error, setError] = useState("")
+    const [error, setError] = useState({errorStatus:"", msg:""})
     const [userNumber, setUserNumber] = useState()
     const[total, setTotal] = useState()
 
@@ -30,15 +30,15 @@ export const CaptchaNumeros = () => {
         const numeroSigno = getRandomNumber(2);
         
         switch (numeroSigno) {
-            case 0:
+            case 1:
                 setSigno("+")
                 setTotal(operando+operando1);
                 break;
-            case 1:
+            case 2:
                 setSigno("-")
                 setTotal(operando-operando1);
                 break;
-            case 2:
+            case 3:
                 setSigno("*")
                 setTotal(operando*operando1);
                 break;                     
@@ -50,10 +50,15 @@ export const CaptchaNumeros = () => {
     const handleVerification = (e)=>{
         e.preventDefault();
 
+        if(!Number.isInteger(userNumber)){
+            setError({errorStatus:true, msg: "Is not a valid number"})
+        }
+
+
         if(total !== parseInt(userNumber)){
-            setError(true)
+            setError({errorStatus:true, msg: "Numbers are not the same"})
         }else{
-            setError(false)
+            setError({errorStatus:false, msg: "You can continue"})
         }
     }
 
@@ -76,7 +81,7 @@ export const CaptchaNumeros = () => {
         </p>
 
         <div>
-            <input 
+            <input
                 type="number"
                 name='userNumber'
                 value={userNumber}
@@ -92,10 +97,10 @@ export const CaptchaNumeros = () => {
 
 
         {
-            error && <Error>The numbers are not the same</Error> 
+            error.errorStatus && <Error>{error.msg}</Error> 
         }
         {
-            (error !== "" && !error) && <Success>You can continue</Success>
+            (error.errorStatus !== "" && !error.errorStatus) && <Success>{error.msg}</Success>
         }   
 
 

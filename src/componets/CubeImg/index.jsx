@@ -7,31 +7,40 @@ const StyledCubeImg = styled.div`
   margin: auto;
   overflow: hidden;
   position: relative;
+
   label {
     background-image: ${(props) => props.url ? `url(${props.url})` : 'none'};
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #aa2b2b58;
+    background-blend-mode: ${(props) => props.selected !== "selected" ? `normal` : `darken` };
     width: 100%;
     height: 100%;
     display: flex;
   }
-  input[type="checkbox"] {
+  .checkbox {
     position: absolute;
+    display: none;
   }
+
 `;
 export const CubeImg = ({ url, category, toggleSelect }) => {
-  // const [selected, setSelected] = useState(false)
-  console.log(url, category)
+  const [selected, setSelected] = useState(false)
+  // console.log(url, category)
   const handlerSelect = (e) => {
-    console.log(e.parent)
-    toggleSelect({url,category})
+    // console.log(e)
+    setSelected(!selected)
+    toggleSelect({category,url})
   }
   return (
-    <StyledCubeImg onClick={handlerSelect} url={url}>
-      <input type="checkbox" id={url} value="second_checkbox" />
-      <label for={url}></label>
+    <StyledCubeImg 
+      // className={`${selected ?`selected`: ""}`} 
+      url={url}
+      selected={selected ?`selected`: "unselected"}
+      >
+      <input className="checkbox" type="checkbox" id={url} value="second_checkbox" />
+      <label onClick={handlerSelect} htmlFor={url}></label>
     </StyledCubeImg>
   )
 }

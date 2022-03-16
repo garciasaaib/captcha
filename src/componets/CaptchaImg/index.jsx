@@ -26,22 +26,37 @@ export const CaptchaImg = () => {
       {category:"dogs", url:"https://i.ibb.co/DgLwd9x/cat9.jpg"},
   ]}
   const {images, category} =data
-  const [selected, setSelected] = useState([])
+  const [selected, setSelected] = useState(new Array(0))
   const handlerSubmit = (e) => {
     e.preventDefault()
-    console.log("hola")
+    // console.log(selected.length)
+    console.log(selected)
+    if(selected.length < 4) return alert('Select 4 images at least')
   }
-  const toggleSelect = (e) => {
-    console.log(e)
+  const toggleSelect = (boxSelected) => {
+    const alreadyExist = data.images.filter((row) => {
+      return row.url
+    })
+    console.log(alreadyExist)
+    // agrega todo seleccionado
+    setSelected([...selected,boxSelected])
+
+    // !alreadyExist 
+    //   ? setSelected([...selected,boxSelected])
+    //   : console.log("ya existe")
+    // console.log(boxSelected)
+    // const newSelected = selectedboxSelected)
+    // console.log()
+    
   }
   return (
     <StyledCaptchaImg>
-      <h1>Find all the {category}</h1>
+      <h1>Select all the {category} pictures</h1>
       <form onSubmit={handlerSubmit}>
         <ContainerCube>
         {images.map((image, id) =>
-          <CubeImg 
-            key={id} 
+          <CubeImg
+            key={id}
             {...image}
             toggleSelect={toggleSelect}
             />

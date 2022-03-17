@@ -29,9 +29,11 @@ export const CaptchaImg = () => {
   // Get the data from the captcha, & add selected attribute
   async function fetchData() {
     setCaptionMessage({ message: '', state: '' })
-    const { images, category } = await imagesObject()
-    const imagesPlusSelected = images.map(data => ({ selected: false, ...data }))
-    setFetchedData({ category, images: imagesPlusSelected })
+    // const { images, category } = await imagesObject()
+    const newData = await imagesObject()
+    // console.log(newData)
+    const imagesPlusSelected = await newData.images.map(data => ({ selected: false, ...data }))
+    await setFetchedData({ category: newData.category, images: imagesPlusSelected })
   }
 
   // Check if it is a valid combination

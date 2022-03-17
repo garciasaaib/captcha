@@ -59,7 +59,7 @@ export const CaptchaImg = () => {
 
   return (
     <StyledCaptchaImg>
-      <h1>Select all the {fetchedData.category} pictures</h1>
+      <h1>Select all the <u>{fetchedData.category}</u> pictures</h1>
       <form onSubmit={handlerSubmit}>
         {captionMessage.message && <Caption message={captionMessage.message}/>}
         <ContainerCube images={fetchedData.images}>

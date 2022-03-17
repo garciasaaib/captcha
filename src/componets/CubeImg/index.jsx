@@ -6,6 +6,8 @@ const StyledCubeImg = styled.div`
   margin: auto;
   overflow: hidden;
   position: relative;
+  display: flex;
+
 
   img {
     /* background-image: ${(props) => props.url ? `url(${props.url})` : 'none'}; */
@@ -15,24 +17,12 @@ const StyledCubeImg = styled.div`
     background-color: #aa2b2b58;
     width: 100%;
     height: 100%;
-    z-index: 1;
-    position: relative;
-  }
-  .selected {
-    ::before {
-    content: "";
-    width: 100%;
-    height: 100%;
-    background-color: teal ;
-    top: 0;
-    left: 0;
-    position: absolute;
-    z-index: 1000;
-  }
-  }
-  .checkbox {
-    position: absolute;
-    display: none;
+    margin:auto;
+    &.selected {
+      width: 90%;
+      height: 90%;
+
+    }
   }
 
 `;
@@ -43,11 +33,11 @@ export const CubeImg = ({ url, selected, toggleSelect }) => {
   return (
     <StyledCubeImg
       url={url}
-      className={`${selected ? `selected` : ""}`}
-    // {...selected}
-    >
+      // {...selected}
+      >
       {/* <input className="checkbox" type="checkbox" id={url} value="second_checkbox" /> */}
       <img
+        className={`${selected ? `selected` : ""}`}
         src={url}
         onClick={handlerSelect}
         alt={url}

@@ -40,7 +40,7 @@ export const CaptchaImg = () => {
       return category !== fetchedData.category
     })
     // perfect ? congrats : another captcha
-    !verificationPassed ? console.log("correcto") : fetchData()
+    !!verificationPassed ? fetchData() : console.log("correcto")
   }
 
   // Add and remove positions in array

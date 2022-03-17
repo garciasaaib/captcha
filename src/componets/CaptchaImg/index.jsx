@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ContainerCube } from '../ContainerCube'
 import { CubeImg } from '../CubeImg'
 import { DirectionsCaptchaImg } from '../DirectionsCaptchaImg'
+import { Caption } from '../Caption'
 import imagesObject from "../../helpers/data";
 const StyledCaptchaImg = styled.div`
   width: 100%;
@@ -16,7 +17,10 @@ export const CaptchaImg = () => {
     category: "",
     images: []
   })
-  const [captionMessage, setCaptionMessage] = useState('')
+  const [captionMessage, setCaptionMessage] = useState({
+    message: '',
+    state: ''
+  })
   useEffect(() => {
     fetchData()
   }, [])
@@ -35,12 +39,12 @@ export const CaptchaImg = () => {
     const selected = fetchedData.images.filter(({selected}) => selected)
     console.log(fetchedData.images)
     // Less than 4 are very few
-    if (selected.length < 4) return setCaptionMessage("Very few, select more")
+    if (selected.length < 4) return setCaptionMessage({message: "Very few, select more"})
     const verificationPassed = selected.some(({category}) => {
       return category !== fetchedData.category
     })
     // perfect ? congrats : another captcha
-    !!verificationPassed ? fetchData() : console.log("correcto")
+    !!verificationPassed ? fetchData() : setCaptionMessage({message: "Correct!!"})
   }
 
   // Add and remove positions in array
@@ -57,7 +61,7 @@ export const CaptchaImg = () => {
     <StyledCaptchaImg>
       <h1>Select all the {fetchedData.category} pictures</h1>
       <form onSubmit={handlerSubmit}>
-        {captionMessage && captionMessage}
+        {captionMessage.message && <Caption message={captionMessage.message}/>}
         <ContainerCube images={fetchedData.images}>
           {fetchedData.images?.map((image, id) =>
             <CubeImg

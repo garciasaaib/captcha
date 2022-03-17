@@ -23,6 +23,7 @@ function generateImagesObject() {
   // Define Random images from other categories
   var randomFalseCat = randomCategory;
   for (let i = 0; i <= 8; i++) {
+    randomFalseCat = randomfrom(0,4)
     while (randomFalseCat === randomCategory) {
       randomFalseCat = randomfrom(0, 4)
       // console.log("2nd While")

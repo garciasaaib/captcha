@@ -11,7 +11,7 @@ const StyledCaptchaImg = styled.div`
   border-radius: 4px;
   border: 1px solid white;
 `;
-export const CaptchaImg = () => {
+export const CaptchaImg = ({setcaptchaNumber}) => {
   // Init fetched data
   const [fetchedData, setFetchedData] = useState({
     category: "",
@@ -74,7 +74,7 @@ export const CaptchaImg = () => {
         <input type="submit" value="Send Response" />
       </form>
 
-      <DirectionsCaptchaImg refresh={fetchData} />
+      <DirectionsCaptchaImg refresh={fetchData} setcaptchaNumber={setcaptchaNumber} />
     </StyledCaptchaImg>
   )
 }//rafc

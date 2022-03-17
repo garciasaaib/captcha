@@ -1,10 +1,10 @@
 import React from 'react'
 
-export const DirectionsCaptchaImg = (props) => {
+export const DirectionsCaptchaImg = ({refresh, setcaptchaNumber }) => {
   return (
     <div>
-      <button onClick={props.refresh}>Refresh Captcha</button>
-      <button>Try with Aritmetics</button>
+      <button onClick={refresh}>Refresh Captcha</button>
+      <button onClick={()=>setcaptchaNumber(1)}>Try with Aritmetics</button>
 
     </div>
   )

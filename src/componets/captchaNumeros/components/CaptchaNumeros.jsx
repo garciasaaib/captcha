@@ -3,7 +3,7 @@ import { NumberContainer, Error, Success, Title } from './captchaStyles'
 import { getRandomNumber } from '../helpers/getRandom'
 
 
-export const CaptchaNumeros = () => {
+export const CaptchaNumeros = ({setcaptchaNumber}) => {
 
     const [operando, setOperando] = useState(0)
     const [operando1, setOperando1] = useState(0)
@@ -83,6 +83,9 @@ export const CaptchaNumeros = () => {
             </button>
             <button onClick={handleRefresh}>
                 Refresh
+            </button>
+            <button onClick={()=>setcaptchaNumber(0)}>
+                Try with images
             </button>
         </div>
 

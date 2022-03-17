@@ -66,13 +66,8 @@ export const CaptchaNumeros = () => {
         e.preventDefault();
         setOperando(getRandomNumber(15))
         setOperando1(getRandomNumber(15))
-    }
-
-    
-
- 
+    } 
   return (
-
 
     <NumberContainer>
         <Title>Solve the following math operation and input the result.</Title>

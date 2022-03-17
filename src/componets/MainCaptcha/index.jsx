@@ -1,7 +1,11 @@
 import React from 'react'
 
 export const MainCaptcha = () => {
+
   return (
-    <div>MainCaptcha</div>
+    <div>
+      numbers
+      image
+    </div>
   )
 }

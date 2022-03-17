@@ -19,15 +19,16 @@ export const CaptchaImg = () => {
   })
   const [captionMessage, setCaptionMessage] = useState({
     message: '',
-    state: ''
+    state: '',
   })
   useEffect(() => {
     fetchData()
   }, [])
 
+
   // Get the data from the captcha, & add selected attribute
   async function fetchData() {
-    setCaptionMessage('')
+    setCaptionMessage({ message: '', state: '' })
     const { images, category } = await imagesObject()
     const imagesPlusSelected = images.map(data => ({ selected: false, ...data }))
     setFetchedData({ category, images: imagesPlusSelected })
@@ -36,20 +37,20 @@ export const CaptchaImg = () => {
   // Check if it is a valid combination
   const handlerSubmit = (e) => {
     e.preventDefault()
-    const selected = fetchedData.images.filter(({selected}) => selected)
+    const selected = fetchedData.images.filter(({ selected }) => selected)
     console.log(fetchedData.images)
     // Less than 4 are very few
-    if (selected.length < 4) return setCaptionMessage({message: "Very few, select more"})
-    const verificationPassed = selected.some(({category}) => {
+    if (selected.length < 4) return setCaptionMessage({ state: "warn", message: "Very few, select more" })
+    const verificationPassed = selected.some(({ category }) => {
       return category !== fetchedData.category
     })
     // perfect ? congrats : another captcha
-    !!verificationPassed ? fetchData() : setCaptionMessage({message: "Correct!!"})
+    !!verificationPassed ? fetchData() : setCaptionMessage({ state: "success", message: "Correct!!" })
   }
 
   // Add and remove positions in array
-  const toggleSelect = ({url}) => {
-    setCaptionMessage('')
+  const toggleSelect = ({ url }) => {
+    setCaptionMessage({ message: '', state: '' })
     const afterSelection = fetchedData.images.map(row => {
       if (row.url !== url) return row
       else return { ...row, selected: !row.selected }
@@ -61,7 +62,7 @@ export const CaptchaImg = () => {
     <StyledCaptchaImg>
       <h1>Select all the <u>{fetchedData.category}</u> pictures</h1>
       <form onSubmit={handlerSubmit}>
-        {captionMessage.message && <Caption message={captionMessage.message}/>}
+        {captionMessage.message && <Caption message={captionMessage.message} state={captionMessage.state} />}
         <ContainerCube images={fetchedData.images}>
           {fetchedData.images?.map((image, id) =>
             <CubeImg
@@ -71,7 +72,7 @@ export const CaptchaImg = () => {
             />
           )}
         </ContainerCube>
-        <input type="submit" value="Send Response" />
+        <input type="submit" value="Verify Captcha" />
       </form>
 
       <DirectionsCaptchaImg refresh={fetchData} />

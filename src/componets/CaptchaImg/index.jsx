@@ -11,68 +11,66 @@ const StyledCaptchaImg = styled.div`
   border: 1px solid white;
 `;
 export const CaptchaImg = () => {
-  // Init fetched data and selected images
-  const [fetchedData, setFetchedData] = useState(new Array(0))
-  const {images, category} = fetchedData
-  const [selected, setSelected] = useState(new Array(0))
+  // Init fetched data
+  const [fetchedData, setFetchedData] = useState({
+    category: "",
+    images: []
+  })
+  const [captionMessage, setCaptionMessage] = useState('')
   useEffect(() => {
     fetchData()
-  },[])
+  }, [])
 
-
-  // Get the data from the captcha
+  // Get the data from the captcha, & add selected attribute
   async function fetchData() {
-    const newData = await imagesObject()
-    setFetchedData(newData)
+    setCaptionMessage('')
+    const { images, category } = await imagesObject()
+    const imagesPlusSelected = images.map(data => ({ selected: false, ...data }))
+    setFetchedData({ category, images: imagesPlusSelected })
   }
 
   // Check if it is a valid combination
   const handlerSubmit = (e) => {
     e.preventDefault()
-    // console.log(selected.length)
-    console.log(selected)
-    // if(selected.length < 4) return alert('Select 4 images at least')
+    const selected = fetchedData.images.filter(({selected}) => selected)
+    console.log(fetchedData.images)
+    // Less than 4 are very few
+    if (selected.length < 4) return setCaptionMessage("Very few, select more")
+    const verificationPassed = selected.some(({category}) => {
+      return category !== fetchedData.category
+    })
+    // perfect ? congrats : another captcha
+    !verificationPassed ? console.log("correcto") : fetchData()
   }
 
   // Add and remove positions in array
-  const toggleSelect = (boxSelected) => {
-    const alreadyExist = selected.find((row) => {
-      return row.url === boxSelected.url
+  const toggleSelect = ({url}) => {
+    setCaptionMessage('')
+    const afterSelection = fetchedData.images.map(row => {
+      if (row.url !== url) return row
+      else return { ...row, selected: !row.selected }
     })
-    if(!alreadyExist) setSelected([...selected,boxSelected])
-    else {
-      const index = selected.indexOf(alreadyExist)
-      const newSelectedState = [...selected]
-      newSelectedState.splice(index, 1)
-      setSelected(newSelectedState)
-    }
-    // agrega todo seleccionado
-
-    // !alreadyExist
-    //   ? setSelected([...selected,boxSelected])
-    //   : console.log("ya existe")
-    // console.log(boxSelected)
-    // const newSelected = selectedboxSelected)
-    // console.log()
+    setFetchedData({ ...fetchedData, images: afterSelection });
   }
 
   return (
     <StyledCaptchaImg>
-      <h1>Select all the {category} pictures</h1>
+      <h1>Select all the {fetchedData.category} pictures</h1>
       <form onSubmit={handlerSubmit}>
-        <ContainerCube images={images}>
-        {images?.map((image, id) =>
-          <CubeImg
-            key={id}
-            {...image}
-            toggleSelect={toggleSelect}
+        {captionMessage && captionMessage}
+        <ContainerCube images={fetchedData.images}>
+          {fetchedData.images?.map((image, id) =>
+            <CubeImg
+              key={id}
+              {...image}
+              toggleSelect={toggleSelect}
             />
-        )}
+          )}
         </ContainerCube>
         <input type="submit" value="Send Response" />
       </form>
 
-      <DirectionsCaptchaImg refresh={fetchData}/>
+      <DirectionsCaptchaImg refresh={fetchData} />
     </StyledCaptchaImg>
   )
 }//rafc

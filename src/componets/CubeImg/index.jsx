@@ -1,23 +1,34 @@
-import React, { useState } from 'react'
 import styled from 'styled-components';
 const StyledCubeImg = styled.div`
-  background: teal;
+  background: #3b888844;
   width: 150px;
   height: 150px;
   margin: auto;
   overflow: hidden;
   position: relative;
 
-  label {
-    background-image: ${(props) => props.url ? `url(${props.url})` : 'none'};
+  img {
+    /* background-image: ${(props) => props.url ? `url(${props.url})` : 'none'}; */
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #aa2b2b58;
-    background-blend-mode: ${(props) => props.selected !== "selected" ? `normal` : `darken` };
     width: 100%;
     height: 100%;
-    display: flex;
+    z-index: 1;
+    position: relative;
+  }
+  .selected {
+    ::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: teal ;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 1000;
+  }
   }
   .checkbox {
     position: absolute;
@@ -25,22 +36,22 @@ const StyledCubeImg = styled.div`
   }
 
 `;
-export const CubeImg = ({ url, category, toggleSelect }) => {
-  const [selected, setSelected] = useState(false)
-  // console.log(url, category)
+export const CubeImg = ({ url, selected, toggleSelect }) => {
   const handlerSelect = (e) => {
-    // console.log(e)
-    setSelected(!selected)
-    toggleSelect({category,url})
+    toggleSelect({ url })
   }
   return (
-    <StyledCubeImg 
-      // className={`${selected ?`selected`: ""}`} 
+    <StyledCubeImg
       url={url}
-      selected={selected ?`selected`: "unselected"}
-      >
-      <input className="checkbox" type="checkbox" id={url} value="second_checkbox" />
-      <label onClick={handlerSelect} htmlFor={url}></label>
+      className={`${selected ? `selected` : ""}`}
+    // {...selected}
+    >
+      {/* <input className="checkbox" type="checkbox" id={url} value="second_checkbox" /> */}
+      <img
+        src={url}
+        onClick={handlerSelect}
+        alt={url}
+      />
     </StyledCubeImg>
   )
 }

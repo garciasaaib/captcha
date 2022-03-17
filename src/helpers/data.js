@@ -46,6 +46,6 @@ function generateImagesObject() {
 export default generateImagesObject;
 // Support Function
 function randomfrom(min, max) {
-  var randomNumber = Math.floor(Math.random() * max + min)
+  var randomNumber = Math.floor(Math.random() * ++max + min)
   return randomNumber;
 }
